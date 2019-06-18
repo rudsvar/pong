@@ -95,9 +95,8 @@ int main(int argc, char *argv[]) {
     game_display(&game);
     refresh();
 
-    const int UPS = 100;
-    const int MS_IN_S = 1000000;
-    usleep(MS_IN_S / UPS);
+    const int UPS = 60;
+    sleep_ms(1000 / UPS);
   }
 
   close(sock);

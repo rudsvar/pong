@@ -19,13 +19,12 @@ void *handle_client(void *argv) {
       printf("Client %i exited\n", client);
       break; // Client quit
     }
-    printf("Got %c from client %i\n", c, client);
     if (c == 'q') {
       game.over = 1;
       break;
     }
 
-    const float dy = 0.01;
+    const float dy = 0.02;
     pthread_mutex_lock(&game_lock);
     switch (c) {
     case 'k':
@@ -118,9 +117,8 @@ int main(int argc, char *argv[]) {
     send(c2, &game, sizeof(struct game), 0);
     pthread_mutex_unlock(&game_lock);
 
-    const int UPS = 100;
-    const int MS_IN_S = 1000000;
-    usleep(MS_IN_S / UPS);
+    const int UPS = 60;
+    sleep_ms(1000 / UPS);
 
   } while (!game.over);
 
