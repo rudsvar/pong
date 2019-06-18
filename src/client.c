@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
   int sock = connect_to_server(ip, port);
 
   ncurses_init();
+  mvprintw(0, 0, "Waiting for opponent");
 
   while (1) {
     // Send input to server
