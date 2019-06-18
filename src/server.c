@@ -109,18 +109,24 @@ int main(int argc, char *argv[]) {
   }
 
   game_init(&game);
-  do {
+  while (!game.over) {
 
     pthread_mutex_lock(&game_lock);
-    game_step(&game);
     send(c1, &game, sizeof(struct game), 0);
     send(c2, &game, sizeof(struct game), 0);
     pthread_mutex_unlock(&game_lock);
 
+    game_step(&game);
+
     const int UPS = 60;
     sleep_ms(1000 / UPS);
+  }
 
-  } while (!game.over);
+  // Send information about game ending
+  pthread_mutex_lock(&game_lock);
+  send(c1, &game, sizeof(struct game), 0);
+  send(c2, &game, sizeof(struct game), 0);
+  pthread_mutex_unlock(&game_lock);
 
   pthread_mutex_destroy(&game_lock);
 
